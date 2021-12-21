@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -36,7 +38,7 @@ public class Country {
     @Column(unique = true, nullable = false, length = 3)
     private String alpha3Code;
 
-    @Column(unique = true, nullable = false, length = 100)
+    @Column(length = 100)
     @Schema(description = "The capital city of the country", example = "Budapest")
     private String capital;
 
@@ -58,9 +60,29 @@ public class Country {
     @Schema(description = "The flag of the country")
     private String flag;
 
-    @CreatedDate
+    @CreationTimestamp
+    @Column(nullable = false)
     private Date createDate;
 
     @UpdateTimestamp
-    private Date updateTimestamp;
+    @Column(nullable = false)
+    private Date updateDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return name.equals(country.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
