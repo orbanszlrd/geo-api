@@ -32,9 +32,13 @@ public class Country {
     @Column(unique = true, nullable = false, length = 100)
     private String name;
 
+    @Size(min = 2, max = 2)
+    @Schema(description = "The Alpha 2 Code of the country", example = "HU")
     @Column(unique = true, nullable = false, length = 2)
     private String alpha2Code;
 
+    @Size(min = 3, max = 3)
+    @Schema(description = "The Alpha 3 Code of the country", example = "HU")
     @Column(unique = true, nullable = false, length = 3)
     private String alpha3Code;
 
@@ -43,21 +47,21 @@ public class Country {
     private String capital;
 
     @Column(nullable = false, length = 100)
-    @Schema(description = "The subregion of the country")
+    @Schema(description = "The subregion of the country", example = "Central Europe")
     private String subregion;
 
     @Column(nullable = false, length = 100)
-    @Schema(description = "The region of the country")
+    @Schema(description = "The region of the country", example = "Europe")
     private String region;
 
-    @Schema(description = "The population of the country")
+    @Schema(description = "The population of the country", example = "9749763")
     private Long population;
 
-    @Schema(description = "The area of the country")
+    @Schema(description = "The area of the country", example = "93028.0")
     private Float area;
 
     @Column(length = 100)
-    @Schema(description = "The flag of the country")
+    @Schema(description = "The flag of the country", example = "https://flagcdn.com/hu.svg")
     private String flag;
 
     @CreationTimestamp
