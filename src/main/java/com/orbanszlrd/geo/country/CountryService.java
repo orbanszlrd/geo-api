@@ -26,7 +26,6 @@ public class CountryService {
 
     public Country update(Long id, SaveCountryCommand saveCountryCommand) {
         Country oldCountry = findById(id);
-
         Type type = new TypeToken<Country>() {
         }.getType();
         Country country = modelMapper.map(saveCountryCommand, type);
@@ -36,7 +35,7 @@ public class CountryService {
     }
 
     public Country findById(Long id) {
-        return countryRepository.findById(id).orElseThrow(() -> new CountryNotFoundProblem(id));
+        return countryRepository.findById(id).orElseThrow(() -> new CountryNotFoundException(id));
     }
 
     public void deleteById(Long id) {
