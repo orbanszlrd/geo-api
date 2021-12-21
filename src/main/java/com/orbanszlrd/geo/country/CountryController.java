@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/countries")
+@RequestMapping("/api/v1/countries")
 @Log4j2
 @Tag(name = "The Country API", description = "The Country API")
 public class CountryController {
