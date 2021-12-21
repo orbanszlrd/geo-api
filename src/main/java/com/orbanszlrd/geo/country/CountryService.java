@@ -12,21 +12,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CountryService {
     private final ModelMapper modelMapper;
-    private final CountryRepository  countryRepository;
+    private final CountryRepository countryRepository;
 
     public List<Country> findAll() {
         return countryRepository.findAll();
     }
 
     public Country add(SaveCountryCommand saveCountryCommand) {
-        Type type = new TypeToken<Country>() {}.getType();
+        Type type = new TypeToken<Country>() {
+        }.getType();
         return countryRepository.save(modelMapper.map(saveCountryCommand, type));
     }
 
     public Country update(Long id, SaveCountryCommand saveCountryCommand) {
         Country oldCountry = findById(id);
 
-        Type type = new TypeToken<Country>() {}.getType();
+        Type type = new TypeToken<Country>() {
+        }.getType();
         Country country = modelMapper.map(saveCountryCommand, type);
         country.setId(id);
         country.setCreateDate(oldCountry.getCreateDate());

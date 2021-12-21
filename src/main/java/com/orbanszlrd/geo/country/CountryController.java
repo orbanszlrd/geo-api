@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +27,7 @@ public class CountryController {
     private final CountryService countryService;
     private final CountryModelAssembler countryModelAssembler;
 
-    @GetMapping(value = "", produces = {"application/json"})
+    @GetMapping(value = "", produces = {"application/hal+json"})
     @Operation(summary = "List all countries", description = "List all countries")
     public CollectionModel<EntityModel<Country>> findAll() {
         log.info("List all countries");
@@ -37,15 +36,15 @@ public class CountryController {
         return CollectionModel.of(countryEntities, linkTo(methodOn(CountryController.class).findAll()).withSelfRel());
     }
 
-    @GetMapping(value = "/{id}", produces = {"application/json"})
+    @GetMapping(value = "/{id}", produces = {"application/hal+json"})
     @Operation(summary = "Find a country", description = "Find a country by its id")
-    public EntityModel<Country> findById(@Parameter(description = "The id of the country", required = true, example = "1") @Min(1) @Max(1000) @PathVariable Long id) {
+    public EntityModel<Country> findById(@Parameter(description = "The id of the country", required = true, example = "1") @Min(1) @PathVariable Long id) {
         log.info("Find a country by its id: {}", id);
         Country country = countryService.findById(id);
         return countryModelAssembler.toModel(country);
     }
 
-    @PostMapping(value = "", produces = {"application/json"})
+    @PostMapping(value = "", produces = {"application/hal+json"})
     @Operation(summary = "Insert a new country", description = "Insert a new country")
     @ResponseStatus(HttpStatus.CREATED)
     public EntityModel<Country> add(@Valid @RequestBody SaveCountryCommand saveCountryCommand) {
@@ -54,18 +53,18 @@ public class CountryController {
         return countryModelAssembler.toModel(country);
     }
 
-    @PutMapping(value = "/{id}", produces = {"application/json"})
+    @PutMapping(value = "/{id}", produces = {"application/hal+json"})
     @Operation(summary = "Update a country", description = "Update a country by its id")
-    public EntityModel<Country>  update(@Parameter(description = "The id of the country", required = true, example = "1") @Min(1) @Max(1000) @PathVariable Long id, @Valid @RequestBody SaveCountryCommand saveCountryCommand) {
+    public EntityModel<Country> update(@Parameter(description = "The id of the country", required = true, example = "1") @Min(1) @PathVariable Long id, @Valid @RequestBody SaveCountryCommand saveCountryCommand) {
         log.info("Update a country by its id: {}", id);
-        Country country =  countryService.update(id, saveCountryCommand);
+        Country country = countryService.update(id, saveCountryCommand);
         return countryModelAssembler.toModel(country);
     }
 
-    @DeleteMapping(value = "/{id}", produces = {"application/json"})
+    @DeleteMapping(value = "/{id}", produces = {"application/hal+json"})
     @Operation(summary = "Delete a country", description = "Delete a country by its id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@Parameter(description = "The id of the country", required = true, example = "10") @Min(1) @Max(1000) @PathVariable Long id) {
+    public void deleteById(@Parameter(description = "The id of the country", required = true, example = "252") @Min(1) @PathVariable Long id) {
         log.info("Delete a country by its id: {}", id);
         countryService.deleteById(id);
     }
