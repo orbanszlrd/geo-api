@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  geo:
+    build:
+      context: .
+    # image: geo-api:latest
+    ports:
+      - 8888:8888
+    environment:
+      - SERVER_PORT=8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://dbserver/geo
+      - SPRING_DATASOURCE_USERNAME=dbuser
+      - SPRING_DATASOURCE_PASSWORD=123456
+
+  dbserver:
+    image: postgres:13.3-alpine
+    ports:
+      - 5423:5432
+    environment:
+      - POSTGRES_DB=geo
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=123456
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
