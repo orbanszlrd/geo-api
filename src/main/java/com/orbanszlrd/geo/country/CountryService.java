@@ -2,10 +2,8 @@ package com.orbanszlrd.geo.country;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
@@ -19,16 +17,12 @@ public class CountryService {
     }
 
     public Country add(SaveCountryCommand saveCountryCommand) {
-        Type type = new TypeToken<Country>() {
-        }.getType();
-        return countryRepository.save(modelMapper.map(saveCountryCommand, type));
+        return countryRepository.save(modelMapper.map(saveCountryCommand, Country.class));
     }
 
     public Country update(Long id, SaveCountryCommand saveCountryCommand) {
         Country oldCountry = findById(id);
-        Type type = new TypeToken<Country>() {
-        }.getType();
-        Country country = modelMapper.map(saveCountryCommand, type);
+        Country country = modelMapper.map(saveCountryCommand, Country.class);
         country.setId(id);
         country.setCreateDate(oldCountry.getCreateDate());
         return countryRepository.save(country);

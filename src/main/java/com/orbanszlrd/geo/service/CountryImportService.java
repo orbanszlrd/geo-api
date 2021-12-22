@@ -2,6 +2,9 @@ package com.orbanszlrd.geo.service;
 
 import com.orbanszlrd.geo.country.Country;
 import com.orbanszlrd.geo.country.CountryRepository;
+import com.orbanszlrd.geo.poi.PoiType;
+import com.orbanszlrd.geo.poi.PointOfInterest;
+import com.orbanszlrd.geo.poi.PointOfInterestRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,9 @@ public class CountryImportService {
 
     @Autowired
     private CountryRepository countryRepository;
+
+    @Autowired
+    private PointOfInterestRepository pointOfInterestRepository;
 
     private Country[] getAll() {
         ResponseEntity<Country[]> response = restTemplate.getForEntity(URL, Country[].class);
@@ -45,6 +51,11 @@ public class CountryImportService {
                 try {
                     Country c = countryRepository.save(country);
                     log.info(c + " imported successfully");
+
+                    if (c.getCapital() != null)  {
+                        PointOfInterest pointOfInterest = pointOfInterestRepository.save(new PointOfInterest(c.getCapital(), PoiType.SETTLEMENT, c));
+                        log.info(pointOfInterest + " imported successfully");
+                    }
                 } catch (Exception e) {
                     log.warn(e.getMessage());
                 }

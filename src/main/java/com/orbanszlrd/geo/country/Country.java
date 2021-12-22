@@ -1,6 +1,8 @@
 package com.orbanszlrd.geo.country;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.orbanszlrd.geo.poi.PointOfInterest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -59,6 +63,22 @@ public class Country {
     @UpdateTimestamp
     @Column(nullable = false)
     private Date updateDate;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
+    private Set<PointOfInterest> pointsOfInterest = new HashSet<>();
+
+    public Country(String name) {
+        this.name = name;
+    }
+
+    public void addPointOfInterest(PointOfInterest pointOfInterest) {
+        pointsOfInterest.add(pointOfInterest);
+    }
+
+    public void removePointOfInterest(PointOfInterest pointOfInterest) {
+        pointsOfInterest.add(pointOfInterest);
+    }
 
     @Override
     public boolean equals(Object o) {

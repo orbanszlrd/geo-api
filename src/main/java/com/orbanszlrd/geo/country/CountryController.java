@@ -1,5 +1,6 @@
 package com.orbanszlrd.geo.country;
 
+import com.orbanszlrd.geo.poi.PointOfInterestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +34,10 @@ public class CountryController {
         log.info("List all countries");
         List<Country> countries = countryService.findAll();
         List<EntityModel<Country>> countryEntities = countries.stream().map(countryModelAssembler::toModel).collect(Collectors.toList());
-        return CollectionModel.of(countryEntities, linkTo(methodOn(CountryController.class).findAll()).withSelfRel());
+        return CollectionModel.of(countryEntities,
+                linkTo(methodOn(CountryController.class).findAll()).withSelfRel(),
+                linkTo(methodOn(PointOfInterestController.class).findAll()).withRel("poi")
+        );
     }
 
     @GetMapping(value = "/{id}", produces = {"application/hal+json"})
