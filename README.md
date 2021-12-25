@@ -1,4 +1,5 @@
 # Geo API
+Simple Rest API written in Java using Spring Boot and PostgreSQL.
 
 ### Endpoints
 
@@ -19,3 +20,24 @@
 ### Documentation 
    - /swagger-ui
    - /api-docs 
+
+### Development
+
+##### Prerequisites
+Download and Install the [JDK](https://www.oracle.com/java/technologies/downloads/).  
+Download and Install the [PostgreSQL](https://www.postgresql.org/https://www.postgresql.org/), an open source relational database.  
+Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), the free and open source distributed version control system.
+Install [Docker](https://docs.docker.com/get-docker/), an open source containerization platform.
+
+##### Clone the project
+Run `git clone git@github.com:orbanszlrd/geo-api.git` to clone the repository from [GitHub](https://github.com/orbanszlrd/geo-api).
+
+##### Create a Database
+After installing PostgreSQL, create a database for your project.
+
+##### Create the necessary Environment Variables
+```
+SPRING_DATASOURCE_URL=jdbc:postgresql://<hostname>:5432/<dbname>
+SPRING_DATASOURCE_USERNAME=<username>
+SPRING_DATASOURCE_PASSWORD=<password>
+```
